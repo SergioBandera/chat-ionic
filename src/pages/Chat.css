@@ -1,3 +1,41 @@
-.cameraOutline {
-    color: bluetooth;
-  }
+.caja-texto {
+  background-color: aqua;
+}
+.input-chat {
+  width: 100%;
+}
+.icono-enviar {
+  color: rgb(36, 198, 36);
+}
+.icono-documento,
+.icono-camara {
+  color: black;
+}
+/* .icono-documento, .icono-camara, .icono-enviar{ */
+/* border: 2p
+} */
+
+.conversacion {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid rgb(198, 198, 198);
+  height: 100%;
+}
+
+.caja-escribir {
+  display: flex;
+}
+.botones {
+  width: 14%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mensaje{
+  margin-left: 2%;
+  padding: 2%;
+  background-color: rgb(223, 242, 219);
+  border: 2px solid rgb(113, 234, 113);
+  border-radius: 20px;
+}
