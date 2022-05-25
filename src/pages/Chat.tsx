@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { cameraOutline, send, documentAttachOutline } from "ionicons/icons";
 import {
@@ -17,18 +18,20 @@ import {
 import "./Chat.css";
 
 const Chat: React.FC = () => {
-  const [mensajes, setMensajes] = useState(["estoy aqui", "y aqui"]);
+  let [mensajes, setMensajes] = useState([" "]);
   const [mensajeTexto, setMensajeTexto] = useState("Hola");
 
   const allMessajes = () => {
-      
+      for (let element in mensajes ){
+        setMensajes([...mensajes, element])
+      }
 
     return (
       <div className="conversacion">
         <p className="mensaje">{mensajes[0]}</p>
         <p>{mensajes[1]}</p>
       </div>
-    );
+    )
   };
 
   const cogerMensaje = (event: React.ChangeEvent<HTMLInputElement>) => {
