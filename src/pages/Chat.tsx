@@ -1,71 +1,82 @@
-
 import { useState } from "react";
 import { cameraOutline, send, documentAttachOutline } from "ionicons/icons";
 import {
   IonButton,
-  IonCardContent,
   IonContent,
   IonFooter,
   IonHeader,
   IonIcon,
-  IonInput,
-  IonItem,
+  IonList,
   IonPage,
   IonTextarea,
   IonTitle,
-  IonToolbar,
+  TextareaChangeEventDetail,
 } from "@ionic/react";
 import "./Chat.css";
 
+interface datosMensaje {
+  mensaje: string;
+  hora: string;
+  dia: string;
+}
 const Chat: React.FC = () => {
-  let [mensajes, setMensajes] = useState([" "]);
-  const [mensajeTexto, setMensajeTexto] = useState("Hola");
+  const [mensajes, setMensajes] = useState<Array<datosMensaje>>();
+  const [mensajeTexto, setMensajeTexto] = useState<datosMensaje>({
+    mensaje: "",
+    hora: "",
+    dia: "",
+  });
+  
 
-  const allMessajes = () => {
-      for (let element in mensajes ){
-        setMensajes([...mensajes, element])
-      }
+  const cogerMensaje = (event: CustomEvent<TextareaChangeEventDetail>) => {
+    const data = Date().toLocaleString();
+    const fecha = data.split(" ");
 
-    return (
-      <div className="conversacion">
-        <p className="mensaje">{mensajes[0]}</p>
-        <p>{mensajes[1]}</p>
-      </div>
-    )
-  };
-
-  const cogerMensaje = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const enteredName = event.target.value;
-    setMensajeTexto(enteredName);
+    setMensajeTexto({
+      mensaje: event.detail.value!,
+      hora: fecha[4],
+      dia: fecha[0],
+    });
   };
 
   const enviarMensaje = () => {
-    // e.preventDefault();
-    console.log(mensajeTexto);
+    if (mensajes != null) setMensajes([...mensajes!, mensajeTexto]);
+    else setMensajes([mensajeTexto]);
+    
   };
 
-  const valorTexto: string = "";
+  const mostrarMensajes = () => {
+    if (mensajes != null)
+      return mensajes.map(({ mensaje, hora, dia }, index) => (
+        <IonList className="caja-mensaje" key={index}>
+          <p className="fecha">{dia} {hora}</p>
+          <p className="mensaje">{mensaje}</p>
+        </IonList>
+      ));
+  };
 
   return (
     <IonPage>
       <IonHeader>
         <IonTitle>Chat con Ionic</IonTitle>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent >
         <IonHeader collapse="condense">
           <IonTitle size="large">Chat</IonTitle>
         </IonHeader>
-        {allMessajes()}
+        {mostrarMensajes()}
       </IonContent>
       <IonFooter>
         <div className="caja-escribir">
           <IonTextarea
+          clearOnEdit
             className="input-chat"
             name="texto"
-            typeof="text"
+            inputMode="text"
             rows={5}
             placeholder="Escribe algo..."
             maxlength={300}
+            onIonChange={cogerMensaje}
           ></IonTextarea>
           <div className="botones">
             <IonButton className="icono-documento" fill="outline">
@@ -74,7 +85,12 @@ const Chat: React.FC = () => {
             <IonButton className="icono-camara" fill="outline">
               <IonIcon icon={cameraOutline} size="medium"></IonIcon>
             </IonButton>
-            <IonButton className="icono-enviar" fill="outline" >
+            <IonButton
+            
+              onClick={enviarMensaje}
+              className="icono-enviar"
+              fill="outline"
+            >
               <IonIcon
                 className="icono-enviar"
                 icon={send}

@@ -25,6 +25,7 @@
 
 .caja-escribir {
   display: flex;
+  width: 99%;
 }
 .botones {
   width: 14%;
@@ -32,10 +33,31 @@
   flex-direction: column;
   align-items: center;
 }
-.mensaje{
-  margin-left: 2%;
-  padding: 2%;
+.caja-mensaje{
+  display:flex;
+  flex-direction: column;
+  margin: 5%;
+  margin-right: 2%;
+  width: 90%;
   background-color: rgb(223, 242, 219);
   border: 2px solid rgb(113, 234, 113);
   border-radius: 20px;
+  
+}
+.mensaje{
+  display: flex;
+  flex-direction: column;
+  margin: 2%;
+  justify-content: center;
+  width: 90%;
+ 
+}
+.fecha{
+  display: flex;
+  height: 20%;
+  margin: 0%;
+  justify-content: center;
+  
+  
+
 }
