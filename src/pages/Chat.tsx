@@ -29,13 +29,19 @@ const Chat: React.FC = () => {
   const [mensajes, setMensajes] = useState<Array<datosMensaje>>([]);
   const [mensajeTexto, setMensajeTexto] = useState<datosMensaje>();
   const { photos, takePhoto } = usePhotoGallery();
-  
+  const [texto, setTexto] = useState<string>("");
+  const cogerMensaje = (event: CustomEvent<TextareaChangeEventDetail>) => setTexto(event.detail.value!);
+
 
 
   useEffect(() => {
-    console.log("ahora un render")
-  }, [mensajes])
-  
+    if (mensajeTexto && mensajeTexto.mensaje !== "") {
+      if (mensajes == null) setMensajes([mensajeTexto!]);
+      else setMensajes([...mensajes, mensajeTexto!]);
+      setTexto("");
+    }
+  }, [mensajeTexto])
+
   useEffect(() => {
     if (photos) {
       const data = Date().toLocaleString();
@@ -55,13 +61,14 @@ const Chat: React.FC = () => {
     }
   }, [photos]);
 
-  const cogerMensaje = (event: CustomEvent<TextareaChangeEventDetail>) => {
-    //coger dia y hora
+
+
+  const enviarMensajeTexto = () => {
     const data = Date().toLocaleString();
     const fecha = data.split(" ");
 
     setMensajeTexto({
-      mensaje: event.detail.value!,
+      mensaje: texto!,
       UserPhoto: {
         filepath: "",
         webviewPath: "",
@@ -69,16 +76,6 @@ const Chat: React.FC = () => {
       hora: fecha[4],
       dia: fecha[0],
     });
-
-  };
-
-  const enviarMensajeTexto = () => {
-    if (mensajeTexto && mensajeTexto.mensaje !== "") {
-      if (mensajes == null) setMensajes([mensajeTexto!]);
-      else setMensajes([...mensajes!, mensajeTexto!]);
-      
-
-    } else console.log("el mensaje esta vacio");
   };
 
   //pintar todos los mensajes
@@ -111,6 +108,8 @@ const Chat: React.FC = () => {
       <IonFooter>
         <div className="caja-escribir">
           <IonTextarea
+            id="cajaTexto"
+            value={texto}
             clearOnEdit
             className="input-chat"
             name="texto"
