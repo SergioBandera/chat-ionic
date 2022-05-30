@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { cameraOutline, send, documentAttachOutline } from "ionicons/icons";
 import {
   IonButton,
-  IonCol,
   IonContent,
   IonFooter,
   IonHeader,
@@ -27,28 +26,34 @@ interface datosMensaje {
 
 const Chat: React.FC = () => {
   //useStates
-  const [mensajes, setMensajes] = useState<Array<datosMensaje>>();
+  const [mensajes, setMensajes] = useState<Array<datosMensaje>>([]);
   const [mensajeTexto, setMensajeTexto] = useState<datosMensaje>();
   const { photos, takePhoto } = usePhotoGallery();
+  
+
 
   useEffect(() => {
-    console.log(photos)
-  }, [mensajeTexto]);
-
-  const subirFoto = async () => {
-    await takePhoto();
-    const data = Date().toLocaleString();
-    const fecha = data.split(" ");
-    setMensajeTexto({
-      mensaje: "",
-      UserPhoto: {
-        filepath: "",
-        webviewPath: photos?.webviewPath,
-      },
-      hora: fecha[4],
-      dia: fecha[0],
-    });
-  };
+    console.log("ahora un render")
+  }, [mensajes])
+  
+  useEffect(() => {
+    if (photos) {
+      const data = Date().toLocaleString();
+      const fecha = data.split(" ");
+      setMensajes([
+        ...mensajes!,
+        {
+          mensaje: "",
+          UserPhoto: {
+            filepath: "",
+            webviewPath: photos?.webviewPath,
+          },
+          hora: fecha[4],
+          dia: fecha[0],
+        },
+      ]);
+    }
+  }, [photos]);
 
   const cogerMensaje = (event: CustomEvent<TextareaChangeEventDetail>) => {
     //coger dia y hora
@@ -64,17 +69,22 @@ const Chat: React.FC = () => {
       hora: fecha[4],
       dia: fecha[0],
     });
+
   };
 
-  const enviarMensaje = () => {
-    if (mensajes != null) setMensajes([...mensajes!, mensajeTexto!]);
-    else setMensajes([mensajeTexto!]);
+  const enviarMensajeTexto = () => {
+    if (mensajeTexto && mensajeTexto.mensaje !== "") {
+      if (mensajes == null) setMensajes([mensajeTexto!]);
+      else setMensajes([...mensajes!, mensajeTexto!]);
+      
+
+    } else console.log("el mensaje esta vacio");
   };
 
   //pintar todos los mensajes
   const mostrarMensajes = () => {
-    if (mensajes != null)
-      return mensajes.map(({ mensaje, UserPhoto, hora, dia }, index) => (
+    if (mensajes !== null || mensajes !== undefined)
+      return mensajes?.map(({ mensaje, UserPhoto, hora, dia }, index) => (
         <IonList className="caja-mensaje" key={index}>
           <p className="fecha">
             {dia} {hora}
@@ -96,7 +106,7 @@ const Chat: React.FC = () => {
         <IonHeader collapse="condense">
           <IonTitle size="large">Chat</IonTitle>
         </IonHeader>
-        {mostrarMensajes()}
+        <div className="chat">{mostrarMensajes()}</div>
       </IonContent>
       <IonFooter>
         <div className="caja-escribir">
@@ -110,19 +120,20 @@ const Chat: React.FC = () => {
             maxlength={300}
             onIonChange={cogerMensaje}
           ></IonTextarea>
+
           <div className="botones">
             <IonButton className="icono-documento" fill="outline">
               <IonIcon icon={documentAttachOutline} size="medium"></IonIcon>
             </IonButton>
             <IonButton
-              onClick={subirFoto}
+              onClick={takePhoto}
               className="icono-camara"
               fill="outline"
             >
               <IonIcon icon={cameraOutline} size="medium"></IonIcon>
             </IonButton>
             <IonButton
-              onClick={enviarMensaje}
+              onClick={enviarMensajeTexto}
               className="icono-enviar"
               fill="outline"
             >
