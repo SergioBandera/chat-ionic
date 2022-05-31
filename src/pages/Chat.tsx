@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { cameraOutline, send, documentAttachOutline } from "ionicons/icons";
+import { cameraOutline, send, documentAttachOutline, refresh } from "ionicons/icons";
 import {
   IonButton,
   IonContent,
@@ -34,6 +34,10 @@ const Chat: React.FC = () => {
   const cogerMensaje = (event: CustomEvent<TextareaChangeEventDetail>) =>
     setTexto(event.detail.value!);
 
+    const scroll = ()=>{
+    const chat =document.querySelector(".chat");
+    chat!.scrollTop = chat!.scrollHeight;
+    }
   useEffect(() => {
     if (mensajeTexto && mensajeTexto.mensaje !== "") {
       if (mensajes == null) setMensajes([mensajeTexto!]);
@@ -44,9 +48,8 @@ const Chat: React.FC = () => {
   }, [mensajeTexto]);
 
   useEffect(() => {
-    const chat =document.querySelector(".chat");
-    chat!.scrollTop = chat!.scrollHeight;
-  }, [mensajes, photos])
+     setTimeout(scroll, 50)
+  },[mensajes, photos, mensajeTexto])
   
   useEffect(() => {
     if (photos) {
@@ -92,15 +95,16 @@ const Chat: React.FC = () => {
           </p>
           <p className="mensaje">{mensaje}</p>
           {UserPhoto.webviewPath && (
-            <IonImg 
-            src={UserPhoto.webviewPath}></IonImg>
+            <img className="imagen"
+            src={UserPhoto.webviewPath}></img>
           )}
         </IonList>
       ));
   };
 
   return (
-    <div className="pagina">
+    <IonPage className="pagina">
+      <IonContent>
       <div className="header">
         <IonTitle>Chat con Ionic</IonTitle>
       </div>
@@ -142,7 +146,8 @@ const Chat: React.FC = () => {
             </IonButton>
           </div>
         </div>
-    </div>
+      </IonContent>
+    </IonPage>
   );
 };
 
