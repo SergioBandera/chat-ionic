@@ -30,9 +30,9 @@ const Chat: React.FC = () => {
   const [mensajeTexto, setMensajeTexto] = useState<datosMensaje>();
   const { photos, takePhoto } = usePhotoGallery();
   const [texto, setTexto] = useState<string>("");
-  const cogerMensaje = (event: CustomEvent<TextareaChangeEventDetail>) => setTexto(event.detail.value!);
-
-
+ 
+  const cogerMensaje = (event: CustomEvent<TextareaChangeEventDetail>) =>
+    setTexto(event.detail.value!);
 
   useEffect(() => {
     if (mensajeTexto && mensajeTexto.mensaje !== "") {
@@ -40,8 +40,14 @@ const Chat: React.FC = () => {
       else setMensajes([...mensajes, mensajeTexto!]);
       setTexto("");
     }
-  }, [mensajeTexto])
 
+  }, [mensajeTexto]);
+
+  useEffect(() => {
+    const chat =document.querySelector(".chat");
+    chat!.scrollTop = chat!.scrollHeight;
+  }, [mensajes, photos])
+  
   useEffect(() => {
     if (photos) {
       const data = Date().toLocaleString();
@@ -60,8 +66,6 @@ const Chat: React.FC = () => {
       ]);
     }
   }, [photos]);
-
-
 
   const enviarMensajeTexto = () => {
     const data = Date().toLocaleString();
@@ -88,27 +92,22 @@ const Chat: React.FC = () => {
           </p>
           <p className="mensaje">{mensaje}</p>
           {UserPhoto.webviewPath && (
-            <IonImg src={UserPhoto.webviewPath}></IonImg>
+            <IonImg 
+            src={UserPhoto.webviewPath}></IonImg>
           )}
         </IonList>
       ));
   };
 
   return (
-    <IonPage>
-      <IonHeader>
+    <div className="pagina">
+      <div className="header">
         <IonTitle>Chat con Ionic</IonTitle>
-      </IonHeader>
-      <IonContent>
-        <IonHeader collapse="condense">
-          <IonTitle size="large">Chat</IonTitle>
-        </IonHeader>
-        <div className="chat">{mostrarMensajes()}</div>
-      </IonContent>
-      <IonFooter>
+      </div>
+      <div className="chat">{mostrarMensajes()}</div>
         <div className="caja-escribir">
           <IonTextarea
-            id="cajaTexto"
+            id="escribir-mensaje"
             value={texto}
             clearOnEdit
             className="input-chat"
@@ -119,7 +118,6 @@ const Chat: React.FC = () => {
             maxlength={300}
             onIonChange={cogerMensaje}
           ></IonTextarea>
-
           <div className="botones">
             <IonButton className="icono-documento" fill="outline">
               <IonIcon icon={documentAttachOutline} size="medium"></IonIcon>
@@ -144,8 +142,7 @@ const Chat: React.FC = () => {
             </IonButton>
           </div>
         </div>
-      </IonFooter>
-    </IonPage>
+    </div>
   );
 };
 

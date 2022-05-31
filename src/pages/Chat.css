@@ -1,9 +1,7 @@
-.caja-texto {
+/* .caja-texto {
   background-color: aqua;
-}
-.input-chat {
-  width: 100%;
-}
+} */
+
 .icono-enviar {
   color: rgb(36, 198, 36);
 }
@@ -11,9 +9,8 @@
 .icono-camara {
   color: black;
 }
-/* .icono-documento, .icono-camara, .icono-enviar{ */
-/* border: 2p
-} */
+
+
 
 .conversacion {
   display: flex;
@@ -22,27 +19,17 @@
   border: 1px solid rgb(198, 198, 198);
   height: 100%;
 }
-
-.caja-escribir {
-  display: flex;
-  width: 99%;
-}
 .botones {
   width: 14%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.caja-mensaje{
-  display:flex;
+.pagina{
+  display: flex;
   flex-direction: column;
-  margin: 5%;
-  margin-right: 2%;
-  width: 90%;
-  background-color: rgb(223, 242, 219);
-  border: 2px solid rgb(113, 234, 113);
-  border-radius: 20px;
-  
+  width:100vw;
+  height: 100vw;
 }
 .mensaje{
   display: flex;
@@ -50,14 +37,48 @@
   margin: 2%;
   justify-content: center;
   width: 90%;
- 
+  
 }
 .fecha{
   display: flex;
   height: 20%;
   margin: 0%;
   justify-content: center;
-  
-  
-
 }
+.header{
+  display: flex;
+  flex-direction: column;
+  height: 5%;
+  align-items: center;
+}
+.chat{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  width: 100%;
+  height:70% ;
+ 
+  overflow-y: auto;
+}
+.caja-escribir {
+  display: flex;
+  flex-direction: row;
+  height: 20%;
+  border: 1px solid rgb(198, 198, 198);
+}
+#escribir-mensaje{
+  display: flex;
+  flex-direction: column;
+}
+.caja-mensaje{
+  display:flex;
+  flex-direction: column;
+  margin: 3%;
+  margin-right: 2%;
+  background-color: rgb(223, 242, 219);
+  border: 2px solid rgb(113, 234, 113);
+  border-radius: 20px;
+  
+}
+
+
