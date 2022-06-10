@@ -87,7 +87,7 @@ const Chat: React.FC = () => {
 
   //pintar todos los mensajes
   const mostrarMensajes = () => {
-    if (mensajes !== null || mensajes !== undefined)
+    if (mensajes !== null && mensajes !== undefined)
       return mensajes?.map(({ mensaje, UserPhoto, hora, dia }, index) => (
         <IonList className="caja-mensaje" key={index}>
           <p className="fecha">
